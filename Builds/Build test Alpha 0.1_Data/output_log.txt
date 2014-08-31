@@ -13,7 +13,13 @@ Platform assembly: C:\Users\silverstone\Desktop\SurvivalGame\Builds\Build test A
 Loading C:\Users\silverstone\Desktop\SurvivalGame\Builds\Build test Alpha 0.1_Data\Managed\Assembly-CSharp-firstpass.dll into Unity Child Domain
 Platform assembly: C:\Users\silverstone\Desktop\SurvivalGame\Builds\Build test Alpha 0.1_Data\Managed\Assembly-CSharp.dll (this message is harmless)
 Loading C:\Users\silverstone\Desktop\SurvivalGame\Builds\Build test Alpha 0.1_Data\Managed\Assembly-CSharp.dll into Unity Child Domain
-- Completed reload, in  0.057 seconds
+- Completed reload, in  0.056 seconds
 desktop: 1920x1080 120Hz; virtual: 1920x1080 at 0,0
 <RI> Initializing input.
 <RI> Input initialized.
+UnloadTime: 0.302986 ms
+Unloading 4 Unused Serialized files (Serialized files now loaded: 0 / Dirty serialized files: 0)
+
+Unloading 3 unused Assets to reduce memory usage. Loaded Objects now: 130.
+Total: 0.557802 ms (FindLiveObjects: 0.005934 ms CreateObjectMapping: 0.008028 ms MarkObjects: 0.108209 ms  DeleteObjects: 0.005585 ms)
+

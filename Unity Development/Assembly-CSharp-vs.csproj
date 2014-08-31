@@ -48,6 +48,8 @@
   <ItemGroup>
      <Compile Include="Assets\Scripts\DeplacementFolder\DeplacementScript.cs" />
      <Compile Include="Assets\Scripts\DeplacementFolder\FollowRotation.cs" />
+     <Compile Include="Assets\Scripts\MenuScript\MainMenuScript.cs" />
+     <Compile Include="Assets\Scripts\MenuScript\MenuIngameScript.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="Assembly-CSharp-firstpass-vs.csproj">
