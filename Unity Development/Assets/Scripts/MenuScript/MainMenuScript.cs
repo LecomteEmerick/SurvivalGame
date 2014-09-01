@@ -6,6 +6,7 @@ public class MainMenuScript : MonoBehaviour {
 
     private Rect centerRef;
     private Rect afficheRect;
+    private int ratio;
 
     private string message = "";
     private string name = "";
@@ -15,16 +16,30 @@ public class MainMenuScript : MonoBehaviour {
     private StaticVariableScript setting;
 
     [SerializeField]
-    private List<GUITexture> backgroundList;
+    private List<Texture> backgroundList;
 
-    private GUITexture currentTexture;
+    [SerializeField]
+    private List<Texture> mapList;
+
+    [SerializeField]
+    private GUITexture currentBackground;
 
     // Use this for initialization
     void Start()
     {
+        ratio = Screen.width / Screen.height;
         setting = new StaticVariableScript();
-        background.pixelInset = new Rect(-Screen.width / 2, -Screen.height / 2, Screen.width, Screen.height);
+        setBackground(0);
         centerRef = new Rect(Screen.width / 3, Screen.height / 3, Screen.width / 3, 30);
+    }
+
+    void setBackground(int index)
+    {
+        if (index < backgroundList.Count)
+        {
+            currentBackground.texture = backgroundList[index];
+            currentBackground.pixelInset = new Rect(-Screen.width / 2, -Screen.height / 2, Screen.width, Screen.height);
+        }
     }
 
     // Update is called once per frame
@@ -38,6 +53,10 @@ public class MainMenuScript : MonoBehaviour {
             ServerViewMenu();
         else if (menuState == 12)
             ClientViewMenu();
+        else if (menuState == 13)
+            ServeurChoiceMenu();
+        else if (menuState == 14)
+            ClientLobbyMenu();
         else if (menuState == 20)
             SuccessMenu();
 
@@ -149,6 +168,45 @@ public class MainMenuScript : MonoBehaviour {
             menuState = 0;
     }
 
+    private void ServeurChoiceMenu()
+    {
+        setBackground(1);
+        afficheRect = centerRef;
+        Rect buttonMapRect = new Rect(10, 10, 0, 0);
+        for (int i = 0; i < mapList.Count; i++)
+        {
+            buttonMapRect.height = (mapList[i].height * Screen.height) / Screen.width;
+            buttonMapRect.width = (mapList[i].width * Screen.height) / Screen.width;
+            if (buttonMapRect.width + buttonMapRect.x > Screen.width - 10)
+            {
+                buttonMapRect.y += buttonMapRect.height + 10 ;
+                buttonMapRect.x = 10;
+            }
+            if (GUI.Button(buttonMapRect, mapList[i]))
+                startScene();
+            buttonMapRect.x += 10 + buttonMapRect.width;
+
+        }
+        afficheRect.y = Screen.height - 70;
+        if (GUI.Button(afficheRect, "Retour"))
+        {
+            menuState = 0;
+            closeNetwork();
+        }
+    }
+
+    private void ClientLobbyMenu()
+    {
+        afficheRect = centerRef;
+        afficheRect = verticalDown(afficheRect);
+        if (GUI.Button(afficheRect, "Retour"))
+        {
+            menuState = 0;
+            closeNetwork();
+        }
+    }
+
+    //Helper
     private Rect verticalDown(Rect afficheRect)
     {
         afficheRect.y += afficheRect.height + 10;
@@ -168,11 +226,22 @@ public class MainMenuScript : MonoBehaviour {
         {
             Network.InitializeServer(32, 8080, !Network.HavePublicAddress());
             MasterServer.RegisterHost("SurvivalGame", setting.GameName, "");
+            menuState = 13;
         }
         else
         {
             Network.Connect(setting.Element);
+            menuState = 14;
         }
-        startScene();
+    }
+
+    private void closeNetwork()
+    {
+        Network.Disconnect();
+    }
+
+    void OnDisconnectedFromServer()
+    {
+        menuState = 0;
     }
 }
