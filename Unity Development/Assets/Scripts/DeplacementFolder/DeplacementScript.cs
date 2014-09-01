@@ -13,6 +13,8 @@ public class DeplacementScript : MonoBehaviour {
     private bool playerWantToMoveDown = false;
     private bool playerWantToMoveLeft = false;
     private bool playerWantToMoveRight = false;
+    private bool playerWantToJump = false;
+    private bool playerCanJump = true;
 
 	// Use this for initialization
 	void Start () {
@@ -43,6 +45,11 @@ public class DeplacementScript : MonoBehaviour {
         if (playerWantToMoveRight)
             _player.position += Camera.main.transform.right *
                     walkSpeed * Time.deltaTime;
+        if (playerWantToJump)
+        {
+            _player.rigidbody.AddForce(Vector3.up * 250);
+            playerWantToJump = false;
+        }
     }
 
     public void checkDeplacement()
@@ -63,5 +70,12 @@ public class DeplacementScript : MonoBehaviour {
             playerWantToMoveLeft = false;
         if (Input.GetKeyUp(KeyCode.D) || Input.GetKeyUp(KeyCode.RightArrow))
             playerWantToMoveRight = false;
+        if (Mathf.Abs(_player.rigidbody.velocity.y) < 0.03)
+            playerCanJump = true;
+        if (Input.GetKey(KeyCode.Space) && playerCanJump)
+        {
+            playerWantToJump = true;
+            playerCanJump = false;
+        }
     }
 }

@@ -13,13 +13,13 @@ Platform assembly: C:\Users\elecomte\Documents\Emerick Cours\SurvivalGame\Builds
 Loading C:\Users\elecomte\Documents\Emerick Cours\SurvivalGame\Builds\Build test Alpha 0.1_Data\Managed\Assembly-CSharp-firstpass.dll into Unity Child Domain
 Platform assembly: C:\Users\elecomte\Documents\Emerick Cours\SurvivalGame\Builds\Build test Alpha 0.1_Data\Managed\Assembly-CSharp.dll (this message is harmless)
 Loading C:\Users\elecomte\Documents\Emerick Cours\SurvivalGame\Builds\Build test Alpha 0.1_Data\Managed\Assembly-CSharp.dll into Unity Child Domain
-- Completed reload, in  0.077 seconds
+- Completed reload, in  0.371 seconds
 desktop: 1600x1200 60Hz; virtual: 3200x1200 at 0,0
 <RI> Initializing input.
 <RI> Input initialized.
-HandleD3DDeviceLost
-  HandleD3DDeviceLost: needs reset, doing it
-FullResetD3DDevice
-ResetD3DDevice
-dev->Reset
-D3Dwindow device not lost anymore
+UnloadTime: 0.395737 ms
+Unloading 4 Unused Serialized files (Serialized files now loaded: 0 / Dirty serialized files: 0)
+
+Unloading 3 unused Assets to reduce memory usage. Loaded Objects now: 135.
+Total: 0.800714 ms (FindLiveObjects: 0.011805 ms CreateObjectMapping: 0.012831 ms MarkObjects: 0.162195 ms  DeleteObjects: 0.010265 ms)
+
