@@ -4,12 +4,17 @@ using System.Collections.Generic;
 
 public class MainMenuScript : MonoBehaviour {
 
+    private Rect playerConnectZone;
+    private Rect mapAfficheZone;
     private Rect centerRef;
     private Rect afficheRect;
-    private int ratio;
+    public Vector2 scrollPosition;
+    private Texture selectedMap;
+    private string selectedMapName;
 
     private string message = "";
     private string name = "";
+    private string pseudo = "";
 
     private int menuState = 0;
 
@@ -22,12 +27,21 @@ public class MainMenuScript : MonoBehaviour {
     private List<Texture> mapList;
 
     [SerializeField]
+    private Texture arrow_next;
+
+    [SerializeField]
+    private Texture arrow_previous;
+
+    [SerializeField]
     private GUITexture currentBackground;
 
     // Use this for initialization
     void Start()
     {
-        ratio = Screen.width / Screen.height;
+        playerConnectZone = new Rect(200, Screen.height - 300, Screen.width - 200, 150);
+        mapAfficheZone = new Rect(100, 50, Screen.width - 200, Screen.height - 400);
+        selectedMapName = "";
+        scrollPosition = new Vector2(0, 0);
         setting = new StaticVariableScript();
         setBackground(0);
         centerRef = new Rect(Screen.width / 3, Screen.height / 3, Screen.width / 3, 30);
@@ -59,6 +73,8 @@ public class MainMenuScript : MonoBehaviour {
             ClientLobbyMenu();
         else if (menuState == 20)
             SuccessMenu();
+        else if (menuState == 30)
+            EquipmentMenu();
 
     }
 
@@ -73,6 +89,9 @@ public class MainMenuScript : MonoBehaviour {
         afficheRect = verticalDown(afficheRect);
         if (GUI.Button(afficheRect, "Gain et Succes"))
             menuState = 20;
+        afficheRect = verticalDown(afficheRect);
+        if (GUI.Button(afficheRect, "Equipement"))
+            menuState = 30;
         afficheRect = verticalDown(afficheRect);
         if (GUI.Button(afficheRect, "Quitter"))
             Application.Quit();
@@ -94,24 +113,28 @@ public class MainMenuScript : MonoBehaviour {
     private void ServerViewMenu()
     {
         afficheRect = centerRef;
-        GUI.Label(afficheRect, "Name : ");
+        GUI.Label(afficheRect, "Pseudo : ");
         afficheRect = verticalDown(afficheRect);
+        pseudo = GUI.TextArea(afficheRect, pseudo);
+        afficheRect = verticalDown(afficheRect);
+        GUI.Label(afficheRect, "Name : ");
         GUI.Label(afficheRect, message);
         afficheRect = verticalDown(afficheRect);
         name = GUI.TextArea(afficheRect, name);
         afficheRect = verticalDown(afficheRect);
         if (GUI.Button(afficheRect, "Create"))
         {
-            if (name != "")
+            if (name != "" && pseudo != "")
             {
-                setting.GameName = name;
+                setting.GameName = name + " partie de : " + pseudo;
+                setting.Pseudo = pseudo;
                 setting.isServer = true;
                 setting.ip = "0";
                 connection();
             }
             else
             {
-                message = "Please Enter a Name";
+                message = "Please Enter a Name or a pseudo";
             }
         }
 
@@ -124,6 +147,10 @@ public class MainMenuScript : MonoBehaviour {
     {
         MasterServer.RequestHostList("SurvivalGame");
         afficheRect = centerRef;
+        GUI.Label(afficheRect, "Pseudo : ");
+        afficheRect = verticalDown(afficheRect);
+        pseudo = GUI.TextArea(afficheRect, pseudo);
+        afficheRect = verticalDown(afficheRect);
         afficheRect.height = 50;
         HostData[] data = MasterServer.PollHostList();
 
@@ -144,8 +171,9 @@ public class MainMenuScript : MonoBehaviour {
             GUILayout.Label(element.comment);
             GUILayout.Space(5);
             GUILayout.FlexibleSpace();
-            if (GUILayout.Button("Connection"))
+            if (GUILayout.Button("Connection") && pseudo != "")
             {
+                setting.Pseudo = pseudo;
                 setting.Element = element;
                 connection();
             }
@@ -168,26 +196,129 @@ public class MainMenuScript : MonoBehaviour {
             menuState = 0;
     }
 
+    private void EquipmentMenu()
+    {
+        afficheRect = centerRef;
+        GUI.Label(afficheRect, "Aucun Equipement pour le moment");
+        afficheRect = verticalDown(afficheRect);
+        if (GUI.Button(afficheRect, "Retour"))
+            menuState = 0;
+    }
+
     private void ServeurChoiceMenu()
     {
         setBackground(1);
         afficheRect = centerRef;
-        Rect buttonMapRect = new Rect(10, 10, 0, 0);
-        for (int i = 0; i < mapList.Count; i++)
-        {
-            buttonMapRect.height = (mapList[i].height * Screen.height) / Screen.width;
-            buttonMapRect.width = (mapList[i].width * Screen.height) / Screen.width;
-            if (buttonMapRect.width + buttonMapRect.x > Screen.width - 10)
-            {
-                buttonMapRect.y += buttonMapRect.height + 10 ;
-                buttonMapRect.x = 10;
-            }
-            if (GUI.Button(buttonMapRect, mapList[i]))
-                startScene();
-            buttonMapRect.x += 10 + buttonMapRect.width;
-
-        }
+        listMapAffiche();
+        playerConnectedToGame();
         afficheRect.y = Screen.height - 70;
+        if (GUI.Button(afficheRect, "Jouer"))
+            startScene();
+        afficheRect = verticalDown(afficheRect);
+        if (GUI.Button(afficheRect, "Retour"))
+        {
+            menuState = 0;
+            closeNetwork();
+            setBackground(0);
+        }
+    }
+
+    private void listMapAffiche()
+    {
+        GUILayout.BeginArea(mapAfficheZone);
+        scrollPosition = GUILayout.BeginScrollView(scrollPosition, false, false);
+        GUILayout.BeginHorizontal();
+        foreach (Texture map in mapList)
+        {
+            if(GUILayout.Button(map))
+            {
+                selectedMapName = map.name;
+                networkView.RPC("selectMap", RPCMode.Others,selectedMapName);
+            }
+            GUILayout.Space(10);
+        }
+        GUILayout.EndHorizontal();
+        GUILayout.EndScrollView();
+        GUILayout.EndArea();
+        if (GUI.Button(new Rect(Screen.width - 100, 50, 100, Screen.height - 400), arrow_next))
+            scrollPosition.x += Screen.width - 200;
+        if (GUI.Button(new Rect(0, 50, 100, Screen.height - 400), arrow_previous))
+            scrollPosition.x -= Screen.width - 200;
+    }
+
+    private void playerConnectedToGame()
+    {
+        GUILayout.BeginArea(playerConnectZone);
+        GUILayout.BeginVertical();
+        foreach(string ip in setting.ListClient)
+        {
+            GUILayout.Label(ip);
+            GUILayout.Space(10);
+        }
+        GUILayout.EndVertical();
+        GUILayout.EndArea();
+    }
+
+    void OnPlayerConnected(NetworkPlayer player)
+    {
+        networkView.RPC("requestPseudo", player);
+        if(selectedMapName != "")
+            networkView.RPC("selectMap",player, selectedMapName);
+    }
+
+    [RPC]
+    void requestPseudo()
+    {
+        string pseudo = "UNKNOW";
+        if (setting.Pseudo != "")
+            pseudo = setting.Pseudo;
+        networkView.RPC("addUser", RPCMode.Server,pseudo);
+    }
+
+    //call on serveur only
+    [RPC]
+    void addUser(string pseudo)
+    {
+        if (Network.isServer)
+            setting.ListClient.Add(pseudo);
+    }
+
+    [RPC]
+    void removeUser(string pseudo)
+    {
+        if (Network.isServer && setting.ListClient.Contains(pseudo))
+            setting.ListClient.Remove(pseudo);
+    }
+
+    [RPC]
+    void selectMap(string name)
+    {
+        bool found = false;
+        int i = 0;
+        selectedMapName = name;
+        while(!found && i < mapList.Count)
+        {
+            if (mapList[i].name == name)
+                selectedMap = mapList[i];
+            i++;
+        }
+    }
+
+    private void ClientLobbyMenu()
+    {
+        afficheRect = centerRef;
+        if(selectedMap != null)
+        {
+            GUI.DrawTexture(new Rect(Screen.width/2 - selectedMap.width/2,50,selectedMap.width,selectedMap.height), selectedMap);
+            afficheRect = verticalDown(afficheRect);
+        }
+        afficheRect.y = Screen.height - 150;
+        if (GUI.Button(afficheRect, "Accepter"))
+            networkView.RPC("acceptMap", RPCMode.Server,pseudo);
+        afficheRect = verticalDown(afficheRect);
+        if (GUI.Button(afficheRect, "Refuser"))
+            networkView.RPC("rejectMap", RPCMode.Server, pseudo);
+        afficheRect = verticalDown(afficheRect);
         if (GUI.Button(afficheRect, "Retour"))
         {
             menuState = 0;
@@ -195,15 +326,18 @@ public class MainMenuScript : MonoBehaviour {
         }
     }
 
-    private void ClientLobbyMenu()
+    [RPC]
+    void acceptMap(string pseudo)
     {
-        afficheRect = centerRef;
-        afficheRect = verticalDown(afficheRect);
-        if (GUI.Button(afficheRect, "Retour"))
-        {
-            menuState = 0;
-            closeNetwork();
-        }
+        if (setting.ListClient.Contains(pseudo))
+            setting.ListClient[setting.ListClient.IndexOf(pseudo)] = pseudo + " - Map accepted";
+    }
+
+    [RPC]
+    void rejectMap(string pseudo)
+    {
+        if (setting.ListClient.Contains(pseudo))
+            setting.ListClient[setting.ListClient.IndexOf(pseudo)] = pseudo + " - Map refused";
     }
 
     //Helper
@@ -213,8 +347,11 @@ public class MainMenuScript : MonoBehaviour {
         return afficheRect;
     }
 
+    [RPC]
     private void startScene()
     {
+        if (Network.isServer)
+            networkView.RPC("startScene", RPCMode.Others);
         Application.LoadLevel("TestScene");
     }
 
@@ -226,6 +363,7 @@ public class MainMenuScript : MonoBehaviour {
         {
             Network.InitializeServer(32, 8080, !Network.HavePublicAddress());
             MasterServer.RegisterHost("SurvivalGame", setting.GameName, "");
+            setting.ListClient = new List<string>();
             menuState = 13;
         }
         else
@@ -237,6 +375,8 @@ public class MainMenuScript : MonoBehaviour {
 
     private void closeNetwork()
     {
+        if (Network.isClient)
+            networkView.RPC("removeUser", RPCMode.Server, setting.Pseudo);
         Network.Disconnect();
     }
 

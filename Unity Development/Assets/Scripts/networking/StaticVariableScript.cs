@@ -4,6 +4,14 @@ using System.Collections.Generic;
 
 public class StaticVariableScript : MonoBehaviour
 {
+    private string _pseudo;
+
+    public string Pseudo
+    {
+        get { return _pseudo; }
+        set { _pseudo = value; }
+    }
+
     private static bool _isServer;
 
     public bool isServer
@@ -34,5 +42,16 @@ public class StaticVariableScript : MonoBehaviour
     {
         get { return _gameName; }
         set { _gameName = value; }
+    }
+
+    private static List<string> _listClient;
+
+    public List<string> ListClient
+    {
+        get { return _listClient;}
+        set 
+        {
+            _listClient = value;
+        }
     }
 }
