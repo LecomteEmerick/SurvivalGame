@@ -13,13 +13,36 @@ Platform assembly: C:\Users\elecomte\Documents\Emerick Cours\SurvivalGame\Builds
 Loading C:\Users\elecomte\Documents\Emerick Cours\SurvivalGame\Builds\Build test Alpha 0.1_Data\Managed\Assembly-CSharp-firstpass.dll into Unity Child Domain
 Platform assembly: C:\Users\elecomte\Documents\Emerick Cours\SurvivalGame\Builds\Build test Alpha 0.1_Data\Managed\Assembly-CSharp.dll (this message is harmless)
 Loading C:\Users\elecomte\Documents\Emerick Cours\SurvivalGame\Builds\Build test Alpha 0.1_Data\Managed\Assembly-CSharp.dll into Unity Child Domain
-- Completed reload, in  0.498 seconds
+- Completed reload, in  0.626 seconds
 desktop: 1600x1200 60Hz; virtual: 3200x1200 at 0,0
 <RI> Initializing input.
 <RI> Input initialized.
-UnloadTime: 3.447621 ms
-Unloading 4 Unused Serialized files (Serialized files now loaded: 0 / Dirty serialized files: 0)
+UnloadTime: 0.565108 ms
+System memory in use before: 22.7 MB.
+Unloading 5 Unused Serialized files (Serialized files now loaded: 0 / Dirty serialized files: 0)
+System memory in use after: 22.6 MB.
 
-Unloading 11 unused Assets to reduce memory usage. Loaded Objects now: 131.
-Total: 0.815069 ms (FindLiveObjects: 0.010778 ms CreateObjectMapping: 0.013858 ms MarkObjects: 0.190422 ms  DeleteObjects: 0.023097 ms)
+Unloading 11 unused Assets to reduce memory usage. Loaded Objects now: 224.
+Total: 1.245188 ms (FindLiveObjects: 0.025663 ms CreateObjectMapping: 0.015398 ms MarkObjects: 0.208900 ms  DeleteObjects: 0.044141 ms)
 
+Player : AllocatedID: 50
+UnityEngine.Debug:Internal_Log(Int32, String, Object)
+UnityEngine.Debug:Log(Object)
+ClientFolderScript:instantiateMyPlayer() (at C:\Users\elecomte\Documents\Emerick Cours\Unity Development\Assets\Scripts\networking\ClientFolderScript.cs:35)
+ClientFolderScript:Start() (at C:\Users\elecomte\Documents\Emerick Cours\Unity Development\Assets\Scripts\networking\ClientFolderScript.cs:23)
+ 
+(Filename: C Line: 0)
+
+lampe : AllocatedID: 51
+UnityEngine.Debug:Internal_Log(Int32, String, Object)
+UnityEngine.Debug:Log(Object)
+ClientFolderScript:instantiateMyPlayer() (at C:\Users\elecomte\Documents\Emerick Cours\Unity Development\Assets\Scripts\networking\ClientFolderScript.cs:36)
+ClientFolderScript:Start() (at C:\Users\elecomte\Documents\Emerick Cours\Unity Development\Assets\Scripts\networking\ClientFolderScript.cs:23)
+ 
+(Filename: C Line: 0)
+
+The server has disconnected from the client. Most likely the server has shut down.
+ 
+(Filename: C:/BuildAgent/work/d3d49558e4d408f4/Runtime/Network/NetworkManager.cpp Line: 740)
+
+Waiting for finish

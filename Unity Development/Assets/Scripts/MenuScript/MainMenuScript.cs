@@ -352,7 +352,7 @@ public class MainMenuScript : MonoBehaviour {
     {
         if (Network.isServer)
             networkView.RPC("startScene", RPCMode.Others);
-        Application.LoadLevel("TestScene");
+        Application.LoadLevel("AlphaMapScene");
     }
 
     public void connection()
