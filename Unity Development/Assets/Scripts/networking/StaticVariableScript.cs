@@ -54,4 +54,12 @@ public class StaticVariableScript : MonoBehaviour
             _listClient = value;
         }
     }
+
+    private static List<ManageDeplacementClass> _playerList;
+
+    public List<ManageDeplacementClass> playerList
+    {
+        get { return _playerList; }
+        set { _playerList = value; }
+    }
 }
