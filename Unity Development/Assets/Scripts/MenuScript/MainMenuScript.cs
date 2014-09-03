@@ -13,8 +13,8 @@ public class MainMenuScript : MonoBehaviour {
     private string selectedMapName;
 
     private string message = "";
-    private string name = "";
-    private string pseudo = "";
+    private string name = "Game Test";
+    private string pseudo = "Player Test";
 
     private int menuState = 0;
 
@@ -329,8 +329,10 @@ public class MainMenuScript : MonoBehaviour {
     [RPC]
     void acceptMap(string pseudo)
     {
-        if (setting.ListClient.Contains(pseudo))
+        if (setting.ListClient.Contains(pseudo) )
             setting.ListClient[setting.ListClient.IndexOf(pseudo)] = pseudo + " - Map accepted";
+        else if(setting.ListClient.Contains(pseudo + " - Map refused"))
+            setting.ListClient[setting.ListClient.IndexOf(pseudo + " - Map refused")] = pseudo + " - Map accepted";
     }
 
     [RPC]
@@ -338,6 +340,8 @@ public class MainMenuScript : MonoBehaviour {
     {
         if (setting.ListClient.Contains(pseudo))
             setting.ListClient[setting.ListClient.IndexOf(pseudo)] = pseudo + " - Map refused";
+        else if (setting.ListClient.Contains(pseudo + " - Map accepted"))
+            setting.ListClient[setting.ListClient.IndexOf(pseudo + " - Map accepted")] = pseudo + " - Map refused";
     }
 
     //Helper
@@ -350,8 +354,11 @@ public class MainMenuScript : MonoBehaviour {
     [RPC]
     private void startScene()
     {
-        if (Network.isServer)
-            networkView.RPC("startScene", RPCMode.Others);
+        if (setting.ip != null)
+        {
+            if (Network.isServer)
+                networkView.RPC("startScene", RPCMode.Others);
+        }
         Application.LoadLevel("AlphaMapScene");
     }
 

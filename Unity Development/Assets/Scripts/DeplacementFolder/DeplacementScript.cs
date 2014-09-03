@@ -15,12 +15,14 @@ public class DeplacementScript : MonoBehaviour {
 	// Use this for initialization
 	void Start () {
         setting = new StaticVariableScript();
-        myManage = findMyPlayer();
 	}
 
     void Update()
     {
-        checkDeplacement();
+        if (myManage == null && setting.playerList.Count > 0)
+            myManage = findMyPlayer();
+        else
+            checkDeplacement();
     }
 
 	// Update is called once per frame
@@ -56,60 +58,58 @@ public class DeplacementScript : MonoBehaviour {
     public void checkDeplacement()
     {
         _player = findMyPlayer().player.transform;
-        //if (Network.isClient){
-        if (Input.GetKeyDown(KeyCode.Z) || Input.GetKeyDown(KeyCode.UpArrow))
-            networkView.RPC("playerWantToMoveUp", RPCMode.Server, networkView.viewID, true);
-        if (Input.GetKeyDown(KeyCode.S) || Input.GetKeyDown(KeyCode.DownArrow))
-            networkView.RPC("playerWantToMoveDown", RPCMode.Server, networkView.viewID, true);
-        if (Input.GetKeyDown(KeyCode.Q) || Input.GetKeyDown(KeyCode.LeftArrow))
-            networkView.RPC("playerWantToMoveLeft", RPCMode.Server, networkView.viewID, true);
-        if (Input.GetKeyDown(KeyCode.D) || Input.GetKeyDown(KeyCode.RightArrow))
-            networkView.RPC("playerWantToMoveRight", RPCMode.Server, networkView.viewID, true);
-        if (Input.GetKeyUp(KeyCode.Z) || Input.GetKeyUp(KeyCode.UpArrow))
-            networkView.RPC("playerWantToMoveUp", RPCMode.Server, networkView.viewID, false);
-        if (Input.GetKeyUp(KeyCode.S) || Input.GetKeyUp(KeyCode.DownArrow))
-            networkView.RPC("playerWantToMoveDown", RPCMode.Server, networkView.viewID, false);
-        if (Input.GetKeyUp(KeyCode.Q) || Input.GetKeyUp(KeyCode.LeftArrow))
-            networkView.RPC("playerWantToMoveLeft", RPCMode.Server, networkView.viewID, false);
-        if (Input.GetKeyUp(KeyCode.D) || Input.GetKeyUp(KeyCode.RightArrow))
-            networkView.RPC("playerWantToMoveRight", RPCMode.Server, networkView.viewID, false);
-        if (Mathf.Abs(_player.rigidbody.velocity.y) < 0.03)
-            networkView.RPC("playerCanJump", RPCMode.Server, networkView.viewID, true);
-        if (Input.GetKey(KeyCode.Space) && myManage.playerCanJump)
+        if (Network.isClient)
         {
-            networkView.RPC("playerWantToJump", RPCMode.Server, networkView.viewID, true);
-            networkView.RPC("playerCanJump", RPCMode.Server, networkView.viewID, false);
+            if (Input.GetKeyDown(KeyCode.Z) || Input.GetKeyDown(KeyCode.UpArrow))
+                networkView.RPC("playerWantToMoveUp", RPCMode.Server, myManage.viewID, true);
+            if (Input.GetKeyDown(KeyCode.S) || Input.GetKeyDown(KeyCode.DownArrow))
+                networkView.RPC("playerWantToMoveDown", RPCMode.Server, myManage.viewID, true);
+            if (Input.GetKeyDown(KeyCode.Q) || Input.GetKeyDown(KeyCode.LeftArrow))
+                networkView.RPC("playerWantToMoveLeft", RPCMode.Server, myManage.viewID, true);
+            if (Input.GetKeyDown(KeyCode.D) || Input.GetKeyDown(KeyCode.RightArrow))
+                networkView.RPC("playerWantToMoveRight", RPCMode.Server, myManage.viewID, true);
+            if (Input.GetKeyUp(KeyCode.Z) || Input.GetKeyUp(KeyCode.UpArrow))
+                networkView.RPC("playerWantToMoveUp", RPCMode.Server, myManage.viewID, false);
+            if (Input.GetKeyUp(KeyCode.S) || Input.GetKeyUp(KeyCode.DownArrow))
+                networkView.RPC("playerWantToMoveDown", RPCMode.Server, myManage.viewID, false);
+            if (Input.GetKeyUp(KeyCode.Q) || Input.GetKeyUp(KeyCode.LeftArrow))
+                networkView.RPC("playerWantToMoveLeft", RPCMode.Server, myManage.viewID, false);
+            if (Input.GetKeyUp(KeyCode.D) || Input.GetKeyUp(KeyCode.RightArrow))
+                networkView.RPC("playerWantToMoveRight", RPCMode.Server, myManage.viewID, false);
+            if (Mathf.Abs(_player.rigidbody.velocity.y) < 0.03 && !myManage.playerCanJump)
+                networkView.RPC("playerCanJump", RPCMode.Server, myManage.viewID, true);
+            if (Input.GetKey(KeyCode.Space) && myManage.playerCanJump)
+            {
+                networkView.RPC("playerWantToJump", RPCMode.Server, myManage.viewID, true);
+                networkView.RPC("playerCanJump", RPCMode.Server, myManage.viewID, false);
+            }
         }
-        /*}
         else
         {
-            if (Network.isClient)
+            if (Input.GetKeyDown(KeyCode.Z) || Input.GetKeyDown(KeyCode.UpArrow))
+                playerWantToMoveUp(myManage.viewID, true);
+            if (Input.GetKeyDown(KeyCode.S) || Input.GetKeyDown(KeyCode.DownArrow))
+                playerWantToMoveDown(myManage.viewID, true);
+            if (Input.GetKeyDown(KeyCode.Q) || Input.GetKeyDown(KeyCode.LeftArrow))
+                playerWantToMoveLeft(myManage.viewID, true);
+            if (Input.GetKeyDown(KeyCode.D) || Input.GetKeyDown(KeyCode.RightArrow))
+                playerWantToMoveRight(myManage.viewID, true);
+            if (Input.GetKeyUp(KeyCode.Z) || Input.GetKeyUp(KeyCode.UpArrow))
+                playerWantToMoveUp(myManage.viewID, false);
+            if (Input.GetKeyUp(KeyCode.S) || Input.GetKeyUp(KeyCode.DownArrow))
+                playerWantToMoveDown(myManage.viewID, false);
+            if (Input.GetKeyUp(KeyCode.Q) || Input.GetKeyUp(KeyCode.LeftArrow))
+                playerWantToMoveLeft(myManage.viewID, false);
+            if (Input.GetKeyUp(KeyCode.D) || Input.GetKeyUp(KeyCode.RightArrow))
+                playerWantToMoveRight(myManage.viewID, false);
+            if (Mathf.Abs(_player.rigidbody.velocity.y) < 0.03 && !myManage.playerCanJump)
+                playerCanJump(myManage.viewID, true);
+            if (Input.GetKey(KeyCode.Space) && myManage.playerCanJump)
             {
-                if (Input.GetKeyDown(KeyCode.Z) || Input.GetKeyDown(KeyCode.UpArrow))
-                    playerWantToMoveUp(networkView.viewID, true);
-                if (Input.GetKeyDown(KeyCode.S) || Input.GetKeyDown(KeyCode.DownArrow))
-                    playerWantToMoveDown(networkView.viewID, true);
-                if (Input.GetKeyDown(KeyCode.Q) || Input.GetKeyDown(KeyCode.LeftArrow))
-                    playerWantToMoveLeft(networkView.viewID, true);
-                if (Input.GetKeyDown(KeyCode.D) || Input.GetKeyDown(KeyCode.RightArrow))
-                    playerWantToMoveRight(networkView.viewID, true);
-                if (Input.GetKeyUp(KeyCode.Z) || Input.GetKeyUp(KeyCode.UpArrow))
-                    playerWantToMoveUp(networkView.viewID, false);
-                if (Input.GetKeyUp(KeyCode.S) || Input.GetKeyUp(KeyCode.DownArrow))
-                    playerWantToMoveDown(networkView.viewID, false);
-                if (Input.GetKeyUp(KeyCode.Q) || Input.GetKeyUp(KeyCode.LeftArrow))
-                    playerWantToMoveLeft(networkView.viewID, false);
-                if (Input.GetKeyUp(KeyCode.D) || Input.GetKeyUp(KeyCode.RightArrow))
-                    playerWantToMoveRight(networkView.viewID, false);
-                if (Mathf.Abs(_player.rigidbody.velocity.y) < 0.03)
-                    playerCanJump(networkView.viewID, true);
-                if (Input.GetKey(KeyCode.Space) && myManage.playerCanJump)
-                {
-                    playerWantToJump(networkView.viewID, true);
-                    playerCanJump(networkView.viewID, false);
-                }
+                playerWantToJump(myManage.viewID, true);
+                playerCanJump(myManage.viewID, false);
             }
-        }*/
+        }
     }
 
     private ManageDeplacementClass findMyPlayer()
@@ -142,10 +142,7 @@ public class DeplacementScript : MonoBehaviour {
     {
         ManageDeplacementClass playerSettings;
         if ((playerSettings = findId(id)) != null)
-        {
-            Debug.Log("move up change");
             playerSettings.playerWantToMoveUp = want;
-        }
         if (Network.isServer)
             networkView.RPC("playerWantToMoveUp", RPCMode.Others, id, want);
     }

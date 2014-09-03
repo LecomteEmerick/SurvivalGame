@@ -19,7 +19,16 @@ public class ClientFolderScript : MonoBehaviour {
 	void Start () {
         setting = new StaticVariableScript();
         setting.playerList = new List<ManageDeplacementClass>();
-        instantiateMyPlayer();
+        if (setting.ip != null)
+        {
+            if (Network.isServer)
+                instantiateMyPlayer();
+            else
+                networkView.RPC("requestPlayerList", RPCMode.Server, Network.player);
+        }
+        else
+            instantiateMyPlayerSolo();
+
 	}
 
     void instantiateMyPlayer()
@@ -36,6 +45,45 @@ public class ClientFolderScript : MonoBehaviour {
         //
         setting.playerList.Add(new ManageDeplacementClass(newPlayer.networkView.viewID, newPlayer));
         networkView.RPC("addPlayer", RPCMode.Others, newPlayer.networkView.viewID);
+    }
+
+    void instantiateMyPlayerSolo()
+    {
+        GameObject newPlayer = (GameObject)Instantiate(playerPrefab, Vector3.up, Quaternion.identity);
+        GameObject cam = (GameObject)Instantiate(camPrefab, Vector3.zero, Quaternion.identity);
+        cam.transform.parent = newPlayer.transform;
+        cam.transform.localPosition = new Vector3(0, 1, 0);
+        GameObject lamp = (GameObject)Instantiate(lampPrefab, Vector3.zero, Quaternion.identity);
+        lamp.transform.parent = newPlayer.transform;
+        lamp.transform.localPosition = new Vector3(0, 1, 0);
+        setting.playerList.Add(new ManageDeplacementClass(newPlayer.networkView.viewID, newPlayer));
+    }
+
+    private List<NetworkViewID> getListOfViewId()
+    {
+        List<NetworkViewID> list = new List<NetworkViewID>();
+        foreach(ManageDeplacementClass player in setting.playerList)
+        {
+            list.Add(player.viewID);
+        }
+        return list;
+    }
+
+    [RPC]
+    void requestPlayerList(NetworkPlayer player)
+    {
+        if(Network.isServer)
+        {
+            foreach(NetworkViewID id in getListOfViewId())
+                networkView.RPC("addPlayer", player, id);
+            networkView.RPC("addClientPlayer", player);
+        }
+    }
+
+    [RPC]
+    void addClientPlayer()
+    {
+        instantiateMyPlayer();
     }
 
     [RPC]
