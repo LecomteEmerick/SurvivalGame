@@ -6,6 +6,10 @@ public class ManageDeplacementClass{
     public NetworkViewID viewID;
     public GameObject player;
 
+    public float walkSpeed = 15.0f;
+
+    private List<float> modifierWalk;
+
     public bool playerWantToMoveUp = false;
     public bool playerWantToMoveDown = false;
     public bool playerWantToMoveLeft = false;
@@ -19,11 +23,18 @@ public class ManageDeplacementClass{
     {
         this.viewID = id;
         this.player = player;
+        this.modifierWalk = new List<float>();
     }
 
     public bool playerWantDoSomething()
     {
         return playerWantToMoveUp || playerWantToMoveDown || playerWantToMoveLeft || playerWantToMoveRight || playerWantToJump;
+    }
+
+    public void addmodifierWalk(float modifier)
+    {
+        this.modifierWalk.Add(modifier);
+        
     }
 
     /*if (!playerClass.viewID.isMine)

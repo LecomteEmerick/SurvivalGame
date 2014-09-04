@@ -43,7 +43,7 @@ public class DeplacementScript : MonoBehaviour {
             Transform playerTransf = playerClass.player.transform;
             Rigidbody playerRigid = playerClass.player.rigidbody;
             playerRigid.MovePosition(playerTransf.position + playerClass.playerDirection *
-                    walkSpeed * Time.deltaTime);
+                    playerClass.walkSpeed * Time.deltaTime);
             if (playerClass.playerWantToJump)
             {
                 playerRigid.AddForce(Vector3.up * jumpHight);
@@ -200,5 +200,11 @@ public class DeplacementScript : MonoBehaviour {
             playerSettings.playerDirection = direction;
         if (Network.isServer)
             networkView.RPC("playerDirectionSet", RPCMode.Others, id, direction);
+    }
+
+    [RPC]
+    void playerWantToRun(NetworkViewID id, bool want)
+    {
+        if(
     }
 }
