@@ -35,23 +35,13 @@ public class ClientFolderScript : MonoBehaviour {
         GameObject lamp = (GameObject)Network.Instantiate(lampPrefab, Vector3.zero, Quaternion.identity, 2);
         lamp.transform.parent = newPlayer.transform;
         lamp.transform.localPosition = new Vector3(0, 1, 0);
+        lamp.GetComponent<MouseLook>().enabled = true;
         //
         networkView.RPC("parentingObject", RPCMode.Others, newPlayer.networkView.viewID, lamp.networkView.viewID);
         //
         setting.playerList.Add(new ManageDeplacementClass(newPlayer.networkView.viewID, newPlayer));
         networkView.RPC("addPlayer", RPCMode.Others, newPlayer.networkView.viewID);
-    }
-
-    void instantiateMyPlayerSolo()
-    {
-        GameObject newPlayer = (GameObject)Instantiate(playerPrefab, Vector3.up, Quaternion.identity);
-        GameObject cam = (GameObject)Instantiate(camPrefab, Vector3.zero, Quaternion.identity);
-        cam.transform.parent = newPlayer.transform;
-        cam.transform.localPosition = new Vector3(0, 1, 0);
-        GameObject lamp = (GameObject)Instantiate(lampPrefab, Vector3.zero, Quaternion.identity);
-        lamp.transform.parent = newPlayer.transform;
-        lamp.transform.localPosition = new Vector3(0, 1, 0);
-        setting.playerList.Add(new ManageDeplacementClass(newPlayer.networkView.viewID, newPlayer));
+            
     }
 
     private List<NetworkViewID> getListOfViewId()
@@ -96,5 +86,13 @@ public class ClientFolderScript : MonoBehaviour {
             child.transform.parent = parent.transform;
         else
             Debug.Log("parent : " + parent + "\nChild : " + child);
+    }
+
+    void OnDisconnectedFromServer(NetworkDisconnection info)
+    {
+        ManageDeplacementClass myPlayer = StaticVariableScript.findMyPlayer();
+        Network.Destroy(myPlayer.player);
+        Network.RemoveRPCs(myPlayer.viewID);
+        setting.playerList.Remove(myPlayer);
     }
 }

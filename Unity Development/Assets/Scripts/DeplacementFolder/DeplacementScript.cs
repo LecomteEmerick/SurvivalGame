@@ -10,6 +10,9 @@ public class DeplacementScript : MonoBehaviour {
     [SerializeField]
     private float walkSpeed = 15.0f;
 
+    [SerializeField]
+    private float jumpHight = 1000.0f;
+
     private StaticVariableScript setting;
 
 	// Use this for initialization
@@ -20,7 +23,7 @@ public class DeplacementScript : MonoBehaviour {
     void Update()
     {
         if (myManage == null && setting.playerList.Count > 0)
-            myManage = findMyPlayer();
+            myManage = StaticVariableScript.findMyPlayer();
         else
         {
             checkDeplacement();
@@ -43,7 +46,7 @@ public class DeplacementScript : MonoBehaviour {
                     walkSpeed * Time.deltaTime);
             if (playerClass.playerWantToJump)
             {
-                playerRigid.AddForce(Vector3.up * 250);
+                playerRigid.AddForce(Vector3.up * jumpHight);
                 playerClass.playerWantToJump = false;
             }
         }
@@ -51,7 +54,7 @@ public class DeplacementScript : MonoBehaviour {
 
     public void checkDeplacement()
     {
-        _player = findMyPlayer().player.transform;
+        _player = StaticVariableScript.findMyPlayer().player.transform;
         if (Network.isClient)
         {
             if (Input.GetKeyDown(KeyCode.Z) || Input.GetKeyDown(KeyCode.UpArrow))
@@ -118,6 +121,7 @@ public class DeplacementScript : MonoBehaviour {
             direction += -Camera.main.transform.right;
         if (myManage.playerWantToMoveRight)
             direction += Camera.main.transform.right;
+        direction.y = 0;
         if (direction != Vector3.zero || myManage.playerDirection != Vector3.zero)
         {
             if (Network.isServer)
@@ -128,36 +132,11 @@ public class DeplacementScript : MonoBehaviour {
         myManage.playerDirection = direction;
     }
 
-    private ManageDeplacementClass findMyPlayer()
-    {
-        int i = 0;
-        while (i < setting.playerList.Count)
-        {
-            if (setting.playerList[i].viewID.isMine)
-                return setting.playerList[i];
-            i++;
-        }
-        return null;
-    }
-
-    private ManageDeplacementClass findId(NetworkViewID id)
-    {
-        int i = 0;
-        while (i < setting.playerList.Count)
-        {
-            if (setting.playerList[i].viewID == id)
-                return setting.playerList[i];
-            i++;
-        }
-        //Debug.Log("null return");
-        return null;
-    }
-
     [RPC]
     void playerWantToMoveUp(NetworkViewID id, bool want)
     {
         ManageDeplacementClass playerSettings;
-        if ((playerSettings = findId(id)) != null)
+        if ((playerSettings = StaticVariableScript.findId(id)) != null)
             playerSettings.playerWantToMoveUp = want;
         if (Network.isServer)
             networkView.RPC("playerWantToMoveUp", RPCMode.Others, id, want);
@@ -167,7 +146,7 @@ public class DeplacementScript : MonoBehaviour {
     void playerWantToMoveDown(NetworkViewID id, bool want)
     {
         ManageDeplacementClass playerSettings;
-        if ((playerSettings = findId(id)) != null)
+        if ((playerSettings = StaticVariableScript.findId(id)) != null)
             playerSettings.playerWantToMoveDown = want;
         if (Network.isServer)
             networkView.RPC("playerWantToMoveDown", RPCMode.Others, id, want);
@@ -177,7 +156,7 @@ public class DeplacementScript : MonoBehaviour {
     void playerWantToMoveLeft(NetworkViewID id, bool want)
     {
         ManageDeplacementClass playerSettings;
-        if ((playerSettings = findId(id)) != null)
+        if ((playerSettings = StaticVariableScript.findId(id)) != null)
             playerSettings.playerWantToMoveLeft = want;
         if (Network.isServer)
             networkView.RPC("playerWantToMoveLeft", RPCMode.Others, id, want);
@@ -187,7 +166,7 @@ public class DeplacementScript : MonoBehaviour {
     void playerWantToMoveRight(NetworkViewID id, bool want)
     {
         ManageDeplacementClass playerSettings;
-        if ((playerSettings = findId(id)) != null)
+        if ((playerSettings = StaticVariableScript.findId(id)) != null)
             playerSettings.playerWantToMoveRight = want;
         if (Network.isServer)
             networkView.RPC("playerWantToMoveRight", RPCMode.Others, id, want);
@@ -197,7 +176,7 @@ public class DeplacementScript : MonoBehaviour {
     void playerWantToJump(NetworkViewID id, bool want)
     {
         ManageDeplacementClass playerSettings;
-        if ((playerSettings = findId(id)) != null)
+        if ((playerSettings = StaticVariableScript.findId(id)) != null)
             playerSettings.playerWantToJump = want;
         if (Network.isServer)
             networkView.RPC("playerWantToJump", RPCMode.Others, id, want);
@@ -207,7 +186,7 @@ public class DeplacementScript : MonoBehaviour {
     void playerCanJump(NetworkViewID id, bool want)
     {
         ManageDeplacementClass playerSettings;
-        if ((playerSettings = findId(id)) != null)
+        if ((playerSettings = StaticVariableScript.findId(id)) != null)
             playerSettings.playerCanJump = want;
         if (Network.isServer)
             networkView.RPC("playerCanJump", RPCMode.Others, id, want);
@@ -217,7 +196,7 @@ public class DeplacementScript : MonoBehaviour {
     void playerDirectionSet(NetworkViewID id, Vector3 direction)
     {
         ManageDeplacementClass playerSettings;
-        if ((playerSettings = findId(id)) != null)
+        if ((playerSettings = StaticVariableScript.findId(id)) != null)
             playerSettings.playerDirection = direction;
         if (Network.isServer)
             networkView.RPC("playerDirectionSet", RPCMode.Others, id, direction);

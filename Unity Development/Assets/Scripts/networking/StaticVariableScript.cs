@@ -62,4 +62,28 @@ public class StaticVariableScript : MonoBehaviour
         get { return _playerList; }
         set { _playerList = value; }
     }
+
+    public static ManageDeplacementClass findMyPlayer()
+    {
+        int i = 0;
+        while (i < _playerList.Count)
+        {
+            if (_playerList[i].viewID.owner == Network.player )
+                return _playerList[i];
+            i++;
+        }
+        return null;
+    }
+
+    public static ManageDeplacementClass findId(NetworkViewID id)
+    {
+        int i = 0;
+        while (i < _playerList.Count)
+        {
+            if (_playerList[i].viewID == id)
+                return _playerList[i];
+            i++;
+        }
+        return null;
+    }
 }

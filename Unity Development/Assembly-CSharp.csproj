@@ -46,11 +46,14 @@
 	</Reference>
   </ItemGroup>
   <ItemGroup>
+     <Compile Include="Assets\Scripts\BulletShotScript.cs" />
      <Compile Include="Assets\Scripts\Class\ManageDeplacementClass.cs" />
      <Compile Include="Assets\Scripts\DeplacementFolder\DeplacementScript.cs" />
      <Compile Include="Assets\Scripts\DeplacementFolder\FollowRotation.cs" />
      <Compile Include="Assets\Scripts\MenuScript\MainMenuScript.cs" />
      <Compile Include="Assets\Scripts\MenuScript\MenuIngameScript.cs" />
+     <Compile Include="Assets\Scripts\WallHitBulletScript.cs" />
+     <Compile Include="Assets\Scripts\WeaponUseScript.cs" />
      <Compile Include="Assets\Scripts\networking\ClientFolderScript.cs" />
      <Compile Include="Assets\Scripts\networking\ConnectionScript.cs" />
      <Compile Include="Assets\Scripts\networking\StaticVariableScript.cs" />
