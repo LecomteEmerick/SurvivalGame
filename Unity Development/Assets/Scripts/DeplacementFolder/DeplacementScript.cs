@@ -8,7 +8,7 @@ public class DeplacementScript : MonoBehaviour {
     private Transform _player;
 
     [SerializeField]
-    private float walkSpeed = 5.0f;
+    private float walkSpeed = 15.0f;
 
     private StaticVariableScript setting;
 
@@ -22,7 +22,10 @@ public class DeplacementScript : MonoBehaviour {
         if (myManage == null && setting.playerList.Count > 0)
             myManage = findMyPlayer();
         else
+        {
             checkDeplacement();
+            changeDirection();
+        }
     }
 
 	// Update is called once per frame
@@ -34,22 +37,13 @@ public class DeplacementScript : MonoBehaviour {
     {
         foreach (ManageDeplacementClass playerClass in setting.playerList)
         {
-            Transform _player = playerClass.player.transform;
-            if (playerClass.playerWantToMoveUp)
-                _player.position += Camera.main.transform.forward *
-                        walkSpeed * Time.deltaTime;
-            if (playerClass.playerWantToMoveDown)
-                _player.position += -Camera.main.transform.forward *
-                        walkSpeed * Time.deltaTime;
-            if (playerClass.playerWantToMoveLeft)
-                _player.position += -Camera.main.transform.right *
-                        walkSpeed * Time.deltaTime;
-            if (playerClass.playerWantToMoveRight)
-                _player.position += Camera.main.transform.right *
-                        walkSpeed * Time.deltaTime;
+            Transform playerTransf = playerClass.player.transform;
+            Rigidbody playerRigid = playerClass.player.rigidbody;
+            playerRigid.MovePosition(playerTransf.position + playerClass.playerDirection *
+                    walkSpeed * Time.deltaTime);
             if (playerClass.playerWantToJump)
             {
-                _player.rigidbody.AddForce(Vector3.up * 250);
+                playerRigid.AddForce(Vector3.up * 250);
                 playerClass.playerWantToJump = false;
             }
         }
@@ -110,6 +104,28 @@ public class DeplacementScript : MonoBehaviour {
                 playerCanJump(myManage.viewID, false);
             }
         }
+
+    }
+
+    private void changeDirection()
+    {
+        Vector3 direction = Vector3.zero;
+        if (myManage.playerWantToMoveUp)
+            direction += Camera.main.transform.forward;
+        if (myManage.playerWantToMoveDown)
+            direction += -Camera.main.transform.forward;
+        if (myManage.playerWantToMoveLeft)
+            direction += -Camera.main.transform.right;
+        if (myManage.playerWantToMoveRight)
+            direction += Camera.main.transform.right;
+        if (direction != Vector3.zero || myManage.playerDirection != Vector3.zero)
+        {
+            if (Network.isServer)
+                playerDirectionSet(myManage.viewID, direction);
+            else
+                networkView.RPC("playerDirectionSet", RPCMode.Server, myManage.viewID, direction);
+        }
+        myManage.playerDirection = direction;
     }
 
     private ManageDeplacementClass findMyPlayer()
@@ -133,7 +149,7 @@ public class DeplacementScript : MonoBehaviour {
                 return setting.playerList[i];
             i++;
         }
-        Debug.Log("null return");
+        //Debug.Log("null return");
         return null;
     }
 
@@ -195,5 +211,15 @@ public class DeplacementScript : MonoBehaviour {
             playerSettings.playerCanJump = want;
         if (Network.isServer)
             networkView.RPC("playerCanJump", RPCMode.Others, id, want);
+    }
+
+    [RPC]
+    void playerDirectionSet(NetworkViewID id, Vector3 direction)
+    {
+        ManageDeplacementClass playerSettings;
+        if ((playerSettings = findId(id)) != null)
+            playerSettings.playerDirection = direction;
+        if (Network.isServer)
+            networkView.RPC("playerDirectionSet", RPCMode.Others, id, direction);
     }
 }

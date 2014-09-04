@@ -13,193 +13,26 @@ Platform assembly: C:\Users\elecomte\Documents\Emerick Cours\SurvivalGame\Builds
 Loading C:\Users\elecomte\Documents\Emerick Cours\SurvivalGame\Builds\Build test Alpha 0.1_Data\Managed\Assembly-CSharp-firstpass.dll into Unity Child Domain
 Platform assembly: C:\Users\elecomte\Documents\Emerick Cours\SurvivalGame\Builds\Build test Alpha 0.1_Data\Managed\Assembly-CSharp.dll (this message is harmless)
 Loading C:\Users\elecomte\Documents\Emerick Cours\SurvivalGame\Builds\Build test Alpha 0.1_Data\Managed\Assembly-CSharp.dll into Unity Child Domain
-- Completed reload, in  0.126 seconds
+- Completed reload, in  0.491 seconds
 desktop: 1600x1200 60Hz; virtual: 3200x1200 at 0,0
 <RI> Initializing input.
 <RI> Input initialized.
-UnloadTime: 0.334137 ms
+UnloadTime: 7.383873 ms
+System memory in use before: 22.7 MB.
 Unloading 5 Unused Serialized files (Serialized files now loaded: 0 / Dirty serialized files: 0)
+System memory in use after: 22.6 MB.
 
 Unloading 11 unused Assets to reduce memory usage. Loaded Objects now: 227.
-Total: 0.845352 ms (FindLiveObjects: 0.013344 ms CreateObjectMapping: 0.015398 ms MarkObjects: 0.177077 ms  DeleteObjects: 0.022583 ms)
+Total: 1.167171 ms (FindLiveObjects: 0.020530 ms CreateObjectMapping: 0.015398 ms MarkObjects: 0.179130 ms  DeleteObjects: 0.043114 ms)
 
-ondeplacement : AllocatedID: 1
+NullReferenceException: Object reference not set to an instance of an object
+  at DeplacementScript.checkDeplacement () [0x00000] in C:\Users\elecomte\Documents\Emerick Cours\Unity Development\Assets\Scripts\DeplacementFolder\DeplacementScript.cs:54 
+  at DeplacementScript.Update () [0x00032] in C:\Users\elecomte\Documents\Emerick Cours\Unity Development\Assets\Scripts\DeplacementFolder\DeplacementScript.cs:26 
  
-(Filename: C:/BuildAgent/work/d3d49558e4d408f4/artifacts/StandalonePlayerGenerated/UnityEngineDebug.cpp Line: 53)
+(Filename: C Line: 0)
 
-ondeplacement : AllocatedID: 1
+The server has disconnected from the client. Most likely the server has shut down.
  
-(Filename: C:/BuildAgent/work/d3d49558e4d408f4/artifacts/StandalonePlayerGenerated/UnityEngineDebug.cpp Line: 53)
+(Filename: C:/BuildAgent/work/d3d49558e4d408f4/Runtime/Network/NetworkManager.cpp Line: 740)
 
-ondeplacement : AllocatedID: 1
- 
-(Filename: C:/BuildAgent/work/d3d49558e4d408f4/artifacts/StandalonePlayerGenerated/UnityEngineDebug.cpp Line: 53)
-
-ondeplacement : AllocatedID: 1
- 
-(Filename: C:/BuildAgent/work/d3d49558e4d408f4/artifacts/StandalonePlayerGenerated/UnityEngineDebug.cpp Line: 53)
-
-ondeplacement : AllocatedID: 1
- 
-(Filename: C:/BuildAgent/work/d3d49558e4d408f4/artifacts/StandalonePlayerGenerated/UnityEngineDebug.cpp Line: 53)
-
-ondeplacement : AllocatedID: 1
- 
-(Filename: C:/BuildAgent/work/d3d49558e4d408f4/artifacts/StandalonePlayerGenerated/UnityEngineDebug.cpp Line: 53)
-
-ondeplacement : AllocatedID: 1
- 
-(Filename: C:/BuildAgent/work/d3d49558e4d408f4/artifacts/StandalonePlayerGenerated/UnityEngineDebug.cpp Line: 53)
-
-ondeplacement : AllocatedID: 1
- 
-(Filename: C:/BuildAgent/work/d3d49558e4d408f4/artifacts/StandalonePlayerGenerated/UnityEngineDebug.cpp Line: 53)
-
-ondeplacement : AllocatedID: 1
- 
-(Filename: C:/BuildAgent/work/d3d49558e4d408f4/artifacts/StandalonePlayerGenerated/UnityEngineDebug.cpp Line: 53)
-
-ondeplacement : AllocatedID: 1
- 
-(Filename: C:/BuildAgent/work/d3d49558e4d408f4/artifacts/StandalonePlayerGenerated/UnityEngineDebug.cpp Line: 53)
-
-ondeplacement : AllocatedID: 1
- 
-(Filename: C:/BuildAgent/work/d3d49558e4d408f4/artifacts/StandalonePlayerGenerated/UnityEngineDebug.cpp Line: 53)
-
-ondeplacement : AllocatedID: 1
- 
-(Filename: C:/BuildAgent/work/d3d49558e4d408f4/artifacts/StandalonePlayerGenerated/UnityEngineDebug.cpp Line: 53)
-
-ondeplacement : AllocatedID: 1
- 
-(Filename: C:/BuildAgent/work/d3d49558e4d408f4/artifacts/StandalonePlayerGenerated/UnityEngineDebug.cpp Line: 53)
-
-ondeplacement : AllocatedID: 1
- 
-(Filename: C:/BuildAgent/work/d3d49558e4d408f4/artifacts/StandalonePlayerGenerated/UnityEngineDebug.cpp Line: 53)
-
-ondeplacement : AllocatedID: 1
- 
-(Filename: C:/BuildAgent/work/d3d49558e4d408f4/artifacts/StandalonePlayerGenerated/UnityEngineDebug.cpp Line: 53)
-
-ondeplacement : AllocatedID: 1
- 
-(Filename: C:/BuildAgent/work/d3d49558e4d408f4/artifacts/StandalonePlayerGenerated/UnityEngineDebug.cpp Line: 53)
-
-ondeplacement : AllocatedID: 1
- 
-(Filename: C:/BuildAgent/work/d3d49558e4d408f4/artifacts/StandalonePlayerGenerated/UnityEngineDebug.cpp Line: 53)
-
-ondeplacement : AllocatedID: 1
- 
-(Filename: C:/BuildAgent/work/d3d49558e4d408f4/artifacts/StandalonePlayerGenerated/UnityEngineDebug.cpp Line: 53)
-
-ondeplacement : AllocatedID: 1
- 
-(Filename: C:/BuildAgent/work/d3d49558e4d408f4/artifacts/StandalonePlayerGenerated/UnityEngineDebug.cpp Line: 53)
-
-ondeplacement : AllocatedID: 1
- 
-(Filename: C:/BuildAgent/work/d3d49558e4d408f4/artifacts/StandalonePlayerGenerated/UnityEngineDebug.cpp Line: 53)
-
-ondeplacement : AllocatedID: 1
- 
-(Filename: C:/BuildAgent/work/d3d49558e4d408f4/artifacts/StandalonePlayerGenerated/UnityEngineDebug.cpp Line: 53)
-
-ondeplacement : AllocatedID: 1
- 
-(Filename: C:/BuildAgent/work/d3d49558e4d408f4/artifacts/StandalonePlayerGenerated/UnityEngineDebug.cpp Line: 53)
-
-ondeplacement : AllocatedID: 1
- 
-(Filename: C:/BuildAgent/work/d3d49558e4d408f4/artifacts/StandalonePlayerGenerated/UnityEngineDebug.cpp Line: 53)
-
-ondeplacement : AllocatedID: 1
- 
-(Filename: C:/BuildAgent/work/d3d49558e4d408f4/artifacts/StandalonePlayerGenerated/UnityEngineDebug.cpp Line: 53)
-
-ondeplacement : AllocatedID: 1
- 
-(Filename: C:/BuildAgent/work/d3d49558e4d408f4/artifacts/StandalonePlayerGenerated/UnityEngineDebug.cpp Line: 53)
-
-ondeplacement : AllocatedID: 1
- 
-(Filename: C:/BuildAgent/work/d3d49558e4d408f4/artifacts/StandalonePlayerGenerated/UnityEngineDebug.cpp Line: 53)
-
-ondeplacement : AllocatedID: 1
- 
-(Filename: C:/BuildAgent/work/d3d49558e4d408f4/artifacts/StandalonePlayerGenerated/UnityEngineDebug.cpp Line: 53)
-
-ondeplacement : AllocatedID: 1
- 
-(Filename: C:/BuildAgent/work/d3d49558e4d408f4/artifacts/StandalonePlayerGenerated/UnityEngineDebug.cpp Line: 53)
-
-ondeplacement : AllocatedID: 1
- 
-(Filename: C:/BuildAgent/work/d3d49558e4d408f4/artifacts/StandalonePlayerGenerated/UnityEngineDebug.cpp Line: 53)
-
-ondeplacement : AllocatedID: 1
- 
-(Filename: C:/BuildAgent/work/d3d49558e4d408f4/artifacts/StandalonePlayerGenerated/UnityEngineDebug.cpp Line: 53)
-
-ondeplacement : AllocatedID: 1
- 
-(Filename: C:/BuildAgent/work/d3d49558e4d408f4/artifacts/StandalonePlayerGenerated/UnityEngineDebug.cpp Line: 53)
-
-ondeplacement : AllocatedID: 1
- 
-(Filename: C:/BuildAgent/work/d3d49558e4d408f4/artifacts/StandalonePlayerGenerated/UnityEngineDebug.cpp Line: 53)
-
-ondeplacement : AllocatedID: 1
- 
-(Filename: C:/BuildAgent/work/d3d49558e4d408f4/artifacts/StandalonePlayerGenerated/UnityEngineDebug.cpp Line: 53)
-
-ondeplacement : AllocatedID: 1
- 
-(Filename: C:/BuildAgent/work/d3d49558e4d408f4/artifacts/StandalonePlayerGenerated/UnityEngineDebug.cpp Line: 53)
-
-ondeplacement : AllocatedID: 1
- 
-(Filename: C:/BuildAgent/work/d3d49558e4d408f4/artifacts/StandalonePlayerGenerated/UnityEngineDebug.cpp Line: 53)
-
-ondeplacement : AllocatedID: 1
- 
-(Filename: C:/BuildAgent/work/d3d49558e4d408f4/artifacts/StandalonePlayerGenerated/UnityEngineDebug.cpp Line: 53)
-
-ondeplacement : AllocatedID: 1
- 
-(Filename: C:/BuildAgent/work/d3d49558e4d408f4/artifacts/StandalonePlayerGenerated/UnityEngineDebug.cpp Line: 53)
-
-ondeplacement : AllocatedID: 1
- 
-(Filename: C:/BuildAgent/work/d3d49558e4d408f4/artifacts/StandalonePlayerGenerated/UnityEngineDebug.cpp Line: 53)
-
-ondeplacement : AllocatedID: 1
- 
-(Filename: C:/BuildAgent/work/d3d49558e4d408f4/artifacts/StandalonePlayerGenerated/UnityEngineDebug.cpp Line: 53)
-
-ondeplacement : AllocatedID: 1
- 
-(Filename: C:/BuildAgent/work/d3d49558e4d408f4/artifacts/StandalonePlayerGenerated/UnityEngineDebug.cpp Line: 53)
-
-ondeplacement : AllocatedID: 1
- 
-(Filename: C:/BuildAgent/work/d3d49558e4d408f4/artifacts/StandalonePlayerGenerated/UnityEngineDebug.cpp Line: 53)
-
-ondeplacement : AllocatedID: 1
- 
-(Filename: C:/BuildAgent/work/d3d49558e4d408f4/artifacts/StandalonePlayerGenerated/UnityEngineDebug.cpp Line: 53)
-
-ondeplacement : AllocatedID: 1
- 
-(Filename: C:/BuildAgent/work/d3d49558e4d408f4/artifacts/StandalonePlayerGenerated/UnityEngineDebug.cpp Line: 53)
-
-ondeplacement : AllocatedID: 1
- 
-(Filename: C:/BuildAgent/work/d3d49558e4d408f4/artifacts/StandalonePlayerGenerated/UnityEngineDebug.cpp Line: 53)
-
-ondeplacement : AllocatedID: 1
- 
-(Filename: C:/BuildAgent/work/d3d49558e4d408f4/artifacts/StandalonePlayerGenerated/UnityEngineDebug.cpp Line: 53)
-
+Waiting for finish

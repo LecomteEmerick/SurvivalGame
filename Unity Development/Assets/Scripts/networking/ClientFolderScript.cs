@@ -19,15 +19,10 @@ public class ClientFolderScript : MonoBehaviour {
 	void Start () {
         setting = new StaticVariableScript();
         setting.playerList = new List<ManageDeplacementClass>();
-        if (setting.ip != null)
-        {
-            if (Network.isServer)
-                instantiateMyPlayer();
-            else
-                networkView.RPC("requestPlayerList", RPCMode.Server, Network.player);
-        }
+        if (Network.isServer)
+            instantiateMyPlayer();
         else
-            instantiateMyPlayerSolo();
+            networkView.RPC("requestPlayerList", RPCMode.Server, Network.player);
 
 	}
 
