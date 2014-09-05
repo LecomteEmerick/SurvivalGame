@@ -11,7 +11,10 @@ public class DeplacementScript : MonoBehaviour {
     private float walkSpeed = 15.0f;
 
     [SerializeField]
-    private float jumpHight = 1000.0f;
+    private float jumpHight = 500.0f;
+
+    [SerializeField]
+    private float runSpeedModifier = 5.0f;
 
     private StaticVariableScript setting;
 
@@ -43,7 +46,8 @@ public class DeplacementScript : MonoBehaviour {
             Transform playerTransf = playerClass.player.transform;
             Rigidbody playerRigid = playerClass.player.rigidbody;
             playerRigid.MovePosition(playerTransf.position + playerClass.playerDirection *
-                    playerClass.walkSpeed * Time.deltaTime);
+                    playerClass.getWalkSpeed() * Time.deltaTime);
+            Debug.Log(playerClass.getWalkSpeed());
             if (playerClass.playerWantToJump)
             {
                 playerRigid.AddForce(Vector3.up * jumpHight);
@@ -80,6 +84,10 @@ public class DeplacementScript : MonoBehaviour {
                 networkView.RPC("playerWantToJump", RPCMode.Server, myManage.viewID, true);
                 networkView.RPC("playerCanJump", RPCMode.Server, myManage.viewID, false);
             }
+            if(Input.GetKeyDown(KeyCode.LeftShift))
+                networkView.RPC("playerWantToRun", RPCMode.Server, myManage.viewID, true);
+            if (Input.GetKeyUp(KeyCode.LeftShift))
+                networkView.RPC("playerWantToRun", RPCMode.Server, myManage.viewID, false);
         }
         else
         {
@@ -106,6 +114,10 @@ public class DeplacementScript : MonoBehaviour {
                 playerWantToJump(myManage.viewID, true);
                 playerCanJump(myManage.viewID, false);
             }
+            if (Input.GetKeyDown(KeyCode.LeftShift))
+                playerWantToRun(myManage.viewID, true);
+            if (Input.GetKeyUp(KeyCode.LeftShift))
+                playerWantToRun(myManage.viewID, false);
         }
 
     }
@@ -205,6 +217,16 @@ public class DeplacementScript : MonoBehaviour {
     [RPC]
     void playerWantToRun(NetworkViewID id, bool want)
     {
-        if(
+        ManageDeplacementClass playerSettings;
+        if ((playerSettings = StaticVariableScript.findId(id)) != null)
+        {
+            playerSettings.playerWantToRun = want;
+            if (want)
+                playerSettings.addmodifierWalk(runSpeedModifier, 5000);
+            else
+                playerSettings.removeModifier(runSpeedModifier);
+        }
+        if (Network.isServer)
+            networkView.RPC("playerWantToRun", RPCMode.Others, id, want);
     }
 }

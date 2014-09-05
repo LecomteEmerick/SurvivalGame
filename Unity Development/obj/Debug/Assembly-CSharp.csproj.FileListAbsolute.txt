@@ -1,0 +1,12 @@
+C:\Users\elecomte\Documents\Emerick Cours\Unity Development\Temp\bin\Debug\Assembly-CSharp.dll
+C:\Users\elecomte\Documents\Emerick Cours\Unity Development\Temp\bin\Debug\Assembly-CSharp.pdb
+C:\Users\elecomte\Documents\Emerick Cours\Unity Development\Temp\bin\Debug\UnityEditor.dll
+C:\Users\elecomte\Documents\Emerick Cours\Unity Development\Temp\bin\Debug\UnityEngine.dll
+C:\Users\elecomte\Documents\Emerick Cours\Unity Development\Temp\bin\Debug\Mono.Cecil.dll
+C:\Users\elecomte\Documents\Emerick Cours\Unity Development\Temp\bin\Debug\nunit.framework.dll
+C:\Users\elecomte\Documents\Emerick Cours\Unity Development\Temp\bin\Debug\Unity.DataContract.dll
+C:\Users\elecomte\Documents\Emerick Cours\Unity Development\Temp\bin\Debug\ICSharpCode.NRefactory.dll
+C:\Users\elecomte\Documents\Emerick Cours\Unity Development\Temp\bin\Debug\Assembly-CSharp-firstpass.pdb
+C:\Users\elecomte\Documents\Emerick Cours\Unity Development\obj\Debug\Assembly-CSharp.csprojResolveAssemblyReference.cache
+C:\Users\elecomte\Documents\Emerick Cours\Unity Development\obj\Debug\Assembly-CSharp.dll
+C:\Users\elecomte\Documents\Emerick Cours\Unity Development\obj\Debug\Assembly-CSharp.pdb
