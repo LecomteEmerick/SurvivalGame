@@ -23,7 +23,6 @@ public class ClientFolderScript : MonoBehaviour {
             instantiateMyPlayer();
         else
             networkView.RPC("requestPlayerList", RPCMode.Server, Network.player);
-
 	}
 
     void instantiateMyPlayer()
@@ -38,7 +37,6 @@ public class ClientFolderScript : MonoBehaviour {
         lamp.GetComponent<MouseLook>().enabled = true;
         //
         networkView.RPC("parentingObject", RPCMode.Others, newPlayer.networkView.viewID, lamp.networkView.viewID);
-        //
         setting.playerList.Add(new ManageDeplacementClass(newPlayer.networkView.viewID, newPlayer));
         networkView.RPC("addPlayer", RPCMode.Others, newPlayer.networkView.viewID);
             

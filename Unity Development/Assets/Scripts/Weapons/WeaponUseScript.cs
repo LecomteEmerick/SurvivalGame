@@ -41,9 +41,18 @@ public class WeaponUseScript : MonoBehaviour {
         rotation *= Quaternion.Euler(90, 0, 0);
         if (Physics.Raycast(beginPos, direction, out rayCast, Mathf.Infinity))
         {
-            PlaceImpactScript impact = rayCast.collider.gameObject.GetComponent<PlaceImpactScript>();
-            if (impact != null)
-                impact.addImpact(rayCast);
+            if (rayCast.collider.gameObject.tag != "Player")
+            {
+                PlaceImpactScript impact = rayCast.collider.gameObject.GetComponent<PlaceImpactScript>();
+                if (impact != null)
+                    impact.addImpact(rayCast);
+            }
+            else
+            {
+                PlayerScript player = rayCast.collider.gameObject.GetComponent<PlayerScript>();
+                if (player != null)
+                    player.addDamagePhysique(2);
+            }
         }
         GameObject bullet = (GameObject)Instantiate(bulletPrefab, beginPos, rotation);
         bullet.GetComponent<BulletShotScript>().Init(direction);
