@@ -4,16 +4,15 @@ using System.Threading;
 
 public class PlayerCaracClass : MonoBehaviour{
 
-    [SerializeField]
-    private GameObject playerPrefab;
-
-    private bool isAlive;
+    public bool isAlive;
 
     public float life;
     private float resistancePhysique;
     private float resistanceMagic;
 
-    private float playerRespawnTime;
+    public float playerRespawnTime = 10.0f;
+
+
 
     void Start()
     {
@@ -31,13 +30,6 @@ public class PlayerCaracClass : MonoBehaviour{
 
         this.life -= damage * resistance;
         if (this.life < 1)
-        {
             isAlive = false;
-        }
-    }
-
-    public IEnumerable respawn()
-    {
-        yield return new WaitForSeconds(this.playerRespawnTime);
     }
 }

@@ -17,6 +17,7 @@ public class ClientFolderScript : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
+        PlayerScript.died += respwan;
         setting = new StaticVariableScript();
         setting.playerList = new List<ManageDeplacementClass>();
         if (Network.isServer)
@@ -24,6 +25,8 @@ public class ClientFolderScript : MonoBehaviour {
         else
             networkView.RPC("requestPlayerList", RPCMode.Server, Network.player);
 	}
+
+
 
     void instantiateMyPlayer()
     {
@@ -40,6 +43,13 @@ public class ClientFolderScript : MonoBehaviour {
         setting.playerList.Add(new ManageDeplacementClass(newPlayer.networkView.viewID, newPlayer));
         networkView.RPC("addPlayer", RPCMode.Others, newPlayer.networkView.viewID);
             
+    }
+
+    public IEnumerable respwan(ManageDeplacementClass player, float timeRespwan)
+    {
+        DestroyPlayer(player);
+        yield return new WaitForSeconds(timeRespwan);
+        instantiateMyPlayer();
     }
 
     private List<NetworkViewID> getListOfViewId()
@@ -86,11 +96,16 @@ public class ClientFolderScript : MonoBehaviour {
             Debug.Log("parent : " + parent + "\nChild : " + child);
     }
 
+    void DestroyPlayer(ManageDeplacementClass player)
+    {
+        Network.Destroy(player.player);
+        Network.RemoveRPCs(player.viewID);
+        setting.playerList.Remove(player);
+    }
+
     void OnDisconnectedFromServer(NetworkDisconnection info)
     {
         ManageDeplacementClass myPlayer = StaticVariableScript.findMyPlayer();
-        Network.Destroy(myPlayer.player);
-        Network.RemoveRPCs(myPlayer.viewID);
-        setting.playerList.Remove(myPlayer);
+        DestroyPlayer(myPlayer);
     }
 }

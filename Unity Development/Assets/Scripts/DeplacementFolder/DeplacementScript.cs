@@ -47,7 +47,7 @@ public class DeplacementScript : MonoBehaviour {
             Rigidbody playerRigid = playerClass.player.rigidbody;
             playerRigid.MovePosition(playerTransf.position + playerClass.playerDirection *
                     playerClass.getWalkSpeed() * Time.deltaTime);
-            Debug.Log(playerClass.getWalkSpeed());
+            //Debug.Log(playerClass.getWalkSpeed());
             if (playerClass.playerWantToJump)
             {
                 playerRigid.AddForce(Vector3.up * jumpHight);
